@@ -73,6 +73,7 @@ def handle_numbers(text):
 
     return text
 
+# Handles parenthetical phrases
 def handle_parentheses(text):
 
     # Add spaces before and after parentheses
@@ -175,3 +176,14 @@ def spacy_tokenizer(text):
 
     # return preprocessed list of tokens
     return lemmas
+
+# --------------------------------------------------------------------------- #
+# NEW TRANSCRIPT FUNCTION
+# --------------------------------------------------------------------------- #
+
+# Creates new transcript from tokens
+def get_new_transcript(tokens):
+    transcript = ''
+    for token in tokens:
+        transcript += token.strip() + ' '
+    return transcript.strip()

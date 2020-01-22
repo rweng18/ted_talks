@@ -23,14 +23,20 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 # Plotting Package
 import plotly.graph_objects as go
 
+# Import custom functions
+from process_lda import show_topic_distr
+from recommender import get_rec_random
+
 # ---------------------------------------------------------------------------- #
 st.title('Topic Modeling TED Talk Transcripts')
 
 # ---------------------------------------------------------------------------- #
 # READ IN DATA
 # ---------------------------------------------------------------------------- #
-# Load in data on TED talks
-talk_df = pd.read_csv('has_transcript_clean.csv', index_col = 0)
+
+# Load final dataset
+with open('final_raw_data.pkl', 'rb') as file:
+    talk_df = pickle.load(file)
 
 # Load in tokenized data
 with open('all_tok.pkl', 'rb') as file:
@@ -52,20 +58,16 @@ with open('year_tok.pkl', 'rb') as file:
     tok_year_corpus = pickle.load(file)
 
 # Load in data on final LDA model
-lda_top_words = pd.read_csv('lda_15_topics_words.csv', index_col = 0)
+with open('final_lda_words.pkl', 'rb') as file:
+    top_15_words = pickle.load(file)
 
-# ---------------------------------------------------------------------------- #
-# PROCESS DATA
-# ---------------------------------------------------------------------------- #
+# Load final LDA document-topic matrix
+with open('final_lda_dtm.pkl', 'rb') as file:
+    final_lda_dtm = pickle.load(file)
 
-# Convert dates to datetime objects
-talk_df.date_recorded = talk_df.date_recorded.replace('--', np.nan)
-talk_df.date_recorded = pd.to_datetime(talk_df.date_recorded, format = '%Y-%m-%d')
-
-talk_df.upload_date = talk_df.upload_date.replace('--', np.nan)
-talk_df.upload_date = pd.to_datetime(talk_df.upload_date, format = '%Y-%m-%d')
-
-talk_df.drop(['lemmas'], inplace = True, axis = 1)
+matrix = final_lda_dtm[['01_general', '02_science', '03_technology', '04_politics', '05_problems',
+                        '06_personal', '07_AI', '08_miscellaneous', '09_healthcare', '10_linguistics/humanities',
+                        '11_space', '12_agriculture/nature', '13_gender/sexuality', '14_audio/visual', '15_urban_planning/design']]
 
 # ---------------------------------------------------------------------------- #
 # MAKE HISTOGRAMS FOR ENTIRE DATASET
@@ -163,32 +165,33 @@ fig10.update_layout(title_text = 'Histogram of Transcript Word Count (n = 3646)'
                    yaxis_title_text = 'Number of Ted Talks',
                    bargap = 0.1)
 
-# Histgram of Number of Distinct Tokens
-fig11 = go.Figure(data = go.Histogram(x = talk_df.lemma_len,
-                                      marker_color = '#d62728',
-                                      opacity = 0.75))
-fig11.update_layout(title_text = 'Histogram of Distinct Tokens (n = 3646)',
-                   xaxis_title_text = 'Number of Distinct Tokens',
-                   yaxis_title_text = 'Number of Ted Talks',
-                   bargap = 0.1)
+# Histogram of Number of Distinct Tokens
+# lemma_len = [len(set(lemmas)) for lemmas in all_tok]
+# fig11 = go.Figure(data = go.Histogram(x = talk_df.lemma_len,
+#                                       marker_color = '#d62728',
+#                                       opacity = 0.75))
+# fig11.update_layout(title_text = 'Histogram of Distinct Tokens (n = 3646)',
+#                    xaxis_title_text = 'Number of Distinct Tokens',
+#                    yaxis_title_text = 'Number of Ted Talks',
+#                    bargap = 0.1)
 
 # Histogram of Token Occurrence in Entire Corpus
 fig12a = go.Figure(data = go.Histogram(x = list(words_less_than_100.values()),
                                       marker_color = '#d62728',
                                       opacity = 0.75))
 fig12a.update_layout(title_text = 'Histogram of Token Frequency in Corpus (n = 48,935)',
-                   xaxis_title_text = 'Token Frequency in Corpus',
-                   yaxis_title_text = 'Number of Tokens',
-                   bargap = 0.1)
+                     xaxis_title_text = 'Token Frequency in Corpus',
+                     yaxis_title_text = 'Number of Tokens',
+                     bargap = 0.1)
 
 fig12b = go.Figure(data = go.Histogram(x = list(words_more.values()),
                                        xbins=dict(start=0, end=max(list(words_more.values())), size=200),
                                        marker_color = '#d62728',
                                        opacity = 0.75))
 fig12b.update_layout(title_text = 'Histogram of Token Frequency in Corpus (n = 3,102)',
-                   xaxis_title_text = 'Token Frequency in Corpus',
-                   yaxis_title_text = 'Number of Tokens',
-                   bargap = 0.1)
+                     xaxis_title_text = 'Token Frequency in Corpus',
+                     yaxis_title_text = 'Number of Tokens',
+                     bargap = 0.1)
 
 # ---------------------------------------------------------------------------- #
 # PROJECT SECTIONS
@@ -224,7 +227,7 @@ if page == 'Exploratory Data Analysis':
         elif feat == 'Linguistic':
             st.plotly_chart(fig8)   # ted tags
             st.plotly_chart(fig10)  # transcript word count
-            st.plotly_chart(fig11)  # distinct tokens
+            # st.plotly_chart(fig11)  # distinct tokens
 
         elif feat == 'Token Frequency':
             st.plotly_chart(fig12a) # token freq in corpus 0-100
@@ -239,33 +242,33 @@ if page == 'Exploratory Data Analysis':
 
             # Top nmin to nmax tokens in corpus
             fig13 = go.Figure(data = go.Bar(x = top_n_corpus,
-                                    y = [word_bank[word] for word in top_n_corpus],
-                                    marker_color = '#d62728',
-                                    opacity = 0.75))
+                                            y = [word_bank[word] for word in top_n_corpus],
+                                            marker_color = '#d62728',
+                                            opacity = 0.75))
             fig13.update_layout(title_text = fig13_title,
-                        yaxis_title_text = 'Number of Occurrences in Corpus',
-                        xaxis_tickangle = -45,
-                        bargap = 0.1)
+                                yaxis_title_text = 'Number of Occurrences in Corpus',
+                                xaxis_tickangle = -45,
+                                bargap = 0.1)
             st.plotly_chart(fig13)
 
             # Histogram of tokens appearing in < 100 documents
             fig14a = go.Figure(data = go.Histogram(x = list(docs_less_than_100.values()),
-                                       marker_color = '#d62728',
-                                       opacity = 0.75))
+                                                   marker_color = '#d62728',
+                                                   opacity = 0.75))
             fig14a.update_layout(title_text = 'Histogram of Tokens Appearing In < 100 Documents',
-                   xaxis_title_text = 'Number of Documents Token Appears In',
-                   yaxis_title_text = 'Number of Tokens',
-                   bargap = 0.1)
+                                 xaxis_title_text = 'Number of Documents Token Appears In',
+                                 yaxis_title_text = 'Number of Tokens',
+                                 bargap = 0.1)
             st.plotly_chart(fig14a)
 
             # Histogram of tokens appearing in 100+ documents
             fig14b = go.Figure(data = go.Histogram(x = list(docs_more.values()),
-                                       marker_color = '#d62728',
-                                       opacity = 0.75))
+                                                   marker_color = '#d62728',
+                                                   opacity = 0.75))
             fig14b.update_layout(title_text = 'Histogram of Tokens Appearing In 100+ Documents',
-                   xaxis_title_text = 'Number of Documents Token Appears In',
-                   yaxis_title_text = 'Number of Tokens',
-                   bargap = 0.1)
+                                 xaxis_title_text = 'Number of Documents Token Appears In',
+                                 yaxis_title_text = 'Number of Tokens',
+                                 bargap = 0.1)
             st.plotly_chart(fig14b)
 
             # Slider for top nmin to nmax tokens
@@ -277,13 +280,13 @@ if page == 'Exploratory Data Analysis':
 
             # Top nmin to nmax tokens in corpus
             fig15 = go.Figure(data = go.Bar(x = top_n_doc,
-                                    y = [doc_counts[word] for word in top_n_doc],
-                                    marker_color = '#d62728',
-                                    opacity = 0.75))
+                                            y = [doc_counts[word] for word in top_n_doc],
+                                            marker_color = '#d62728',
+                                            opacity = 0.75))
             fig15.update_layout(title_text = fig15_title,
-                        yaxis_title_text = 'Number of Documents Token Appears In',
-                        xaxis_tickangle = -45,
-                        bargap = 0.1)
+                                yaxis_title_text = 'Number of Documents Token Appears In',
+                                xaxis_tickangle = -45,
+                                bargap = 0.1)
             st.plotly_chart(fig15)
 
         elif feat == 'Temporal':
@@ -293,32 +296,56 @@ if page == 'Exploratory Data Analysis':
             st.plotly_chart(fig6) # upload lag
 
     elif eda == 'Talks By Year':
-        year_data_type = st.sidebar.selectbox('Year Recorded',
-                                        ('Audience Engagement',
-                                         'Linguistic',
-                                         'Temporal'))
         # dict_keys(['lemmas', 'lemma_freq', 'lemma_unique', 'doc_lemmas', 'lemma_num_docs'])
         year_of_interest = st.text_input('Year Recorded', 2019)
         year_str = [str(year) for year in sorted(tok_year_corpus.keys())]
-        st.write('Years available: ' + ', '.join(year_str))
+        st.subheader('Years Available:')
+        st.write(', '.join(year_str[0:int(len(year_str)/4)]))
+        st.write(', '.join(year_str[int(len(year_str)/4):int(2*len(year_str)/4)]))
+        st.write(', '.join(year_str[int(2*len(year_str)/4):int(3*len(year_str)/4)]))
+        st.write(', '.join(year_str[int(3*len(year_str)/4):len(year_str)]))
 
         # Add data for given year
         year_data = tok_year_corpus[int(year_of_interest)]['lemma_freq']
-        year_tok_range = st.slider("min to max", 1, 300, (1, 50))
+        tok_range = st.slider("range of tokens", 1, len(year_data), (1, 200))
+        year_tok_range = st.slider("min to max", tok_range[0], tok_range[1], (1, 50))
         year_data_sort = sorted(year_data, key = year_data.get, reverse = True)[year_tok_range[0]-1:year_tok_range[1]-1]
 
         # Histogram of
         fig16 = go.Figure(data = go.Bar(x = year_data_sort,
                                         y = [year_data[x] for x in year_data_sort]))
-        fig16.update_layout(title_text = 'Test ',
-                    yaxis_title_text = 'Number of Occurrences',
-                    xaxis_tickangle = -45,
-                    bargap = 0.1)
+        fig16_title = f'Top {year_tok_range[0]} to {year_tok_range[1]} Tokens in Talks Recorded in {year_of_interest}'
+        fig16.update_layout(title_text = fig16_title,
+                            yaxis_title_text = 'Number of Occurrences',
+                            xaxis_tickangle = -45,
+                            bargap = 0.1)
         st.plotly_chart(fig16)
 
 if page == 'Topic Modeling':
-    st.write('Topic modeling to be updated')
-    st.write(lda_top_words)
+    st.write(top_15_words)
+
+    talk_index = st.text_input('Talk Index (1 to 3646)', 1)
+    tm_test, summ_, tags_ = show_topic_distr(talk_df, final_lda_dtm, int(talk_index)-1)
+    st.plotly_chart(tm_test)
+    st.subheader('SUMMARY:')
+    st.write(summ_)
+    st.subheader('CURRENT TED TAGS:')
+    tag_str = ', '.join(tags_)
+    st.write(tag_str)
 
 if page == 'TED Talk Recommender':
-    st.write('Front end for recommendation system')
+    rand_topic_distr, summ, tags, most_sim, most_dif = get_rec_random(matrix, final_lda_dtm, talk_df, 5)
+    st.plotly_chart(rand_topic_distr)
+    st.subheader('SUMMARY:')
+    st.write(summ)
+    st.subheader('CURRENT TED TAGS:')
+    tag_str_ = ', '.join(tags)
+    st.write(tag_str_)
+
+    st.subheader('MOST SIMILAR TALKS:')
+    for talk in most_sim:
+        st.write(talk_df.iloc[talk]['title'])
+
+    st.subheader('MOST DIFFERENT TALKS:')
+    for talk in most_dif:
+        st.write(talk_df.iloc[talk]['title'])
