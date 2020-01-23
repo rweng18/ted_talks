@@ -1,9 +1,15 @@
-# --------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
+# IMPORT PACKAGES
+# ---------------------------------------------------------------------------- #
+
 import numpy as np
 import pandas as pd
 import plotly.offline as py
 import plotly.graph_objects as go
-# --------------------------------------------------------------------------- #
+
+# ---------------------------------------------------------------------------- #
+# FUNCTIONS FOR PROCESSING AND PRESENTING LDA
+# ---------------------------------------------------------------------------- #
 
 # Returns dataframe of top n words in an LDA model
 # given feature names from vectorizer
@@ -37,7 +43,7 @@ def show_topic_distr(talk_df, lda_dtm, index):
                                                        'AI', 'Miscellaneous', 'Healthcare', 'Linguistics/Humanities', 'Space',
                                                        'Agriculture/Nature', 'Gender/Sexuality', 'Audio/Visual', 'Urban Planning/Design'],
                                            tickangle = -45))
-    topic_distr.update_yaxes(range=[0, 0.75])
+    topic_distr.update_yaxes(range=[0, 0.8])
 
     return topic_distr, talk_df.iloc[index]['summ'], talk_df.iloc[index]['tags']
 
