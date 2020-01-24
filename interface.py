@@ -209,8 +209,9 @@ if page == 'Exploratory Data Analysis':
         year_data_a = tok_year_corpus[int(year_of_interest_a)]['lemma_freq']
 
         # User can toggle range of tokens to search between, then range to visualize
-        tok_range_a = st.slider("Range of Tokens (1)", 1, len(year_data_a), (1, 200))
-        year_tok_range_a = st.slider("Min to Max (1)", tok_range_a[0], tok_range_a[1], (1, 50))
+        min_val_a = st.text_input(f'Minimum Ranked Token (1 to {len(year_data_a)})', 1)
+        max_val_a = st.text_input(f'Maximum Ranked Token (1 to {len(year_data_a)})', 300)
+        year_tok_range_a = st.slider("Min to Max (1)", int(min_val_a), int(max_val_a), (1, 50))
 
         # Sort data in range for visualization
         year_data_sort_a = sorted(year_data_a, key = year_data_a.get, reverse = True)[year_tok_range_a[0]-1:year_tok_range_a[1]-1]
@@ -236,8 +237,9 @@ if page == 'Exploratory Data Analysis':
         year_data_b = tok_year_corpus[int(year_of_interest_b)]['lemma_freq']
 
         # User can toggle range of tokens to search between, then range to visualize
-        tok_range_b = st.slider("Range of Tokens (2)", 1, len(year_data_b), (1, 200))
-        year_tok_range_b = st.slider("Min to Max (2)", tok_range_b[0], tok_range_b[1], (1, 50))
+        min_val_b = st.text_input(f'Minimum Ranked Token (1 to {len(year_data_b)}) (2)', 1)
+        max_val_b = st.text_input(f'Maximum Ranked Token (1 to {len(year_data_b)}) (2)', 300)
+        year_tok_range_b = st.slider("Min to Max (2)", int(min_val_b), int(max_val_b), (1, 50))
 
         # Sort data in range for visualization
         year_data_sort_b = sorted(year_data_b, key = year_data_b.get, reverse = True)[year_tok_range_b[0]-1:year_tok_range_b[1]-1]
@@ -340,6 +342,8 @@ if page == 'TED Talk Recommender':
         st.plotly_chart(rand_topic_distr)
         st.subheader('SUMMARY:')
         st.write(summ)
+        url = 'https://www.ted.com' + talk_df.iloc[index]['url']
+        st.markdown(f'[WATCH THE TALK HERE]({url})')
         st.subheader('CURRENT TED TAGS:')
         tag_str_ = ', '.join(tags)
         st.write(tag_str_)
