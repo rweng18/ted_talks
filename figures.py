@@ -18,7 +18,7 @@ with open('Data/final_raw_data.pkl', 'rb') as file:
     talk_df = pickle.load(file)
 
 # Load in tokenized documents
-with open('final_tok.pkl', 'rb') as file:
+with open('Data/final_tok.pkl', 'rb') as file:
     tok_doc = pickle.load(file)
 
 # Load in corpus of tokens
