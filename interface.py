@@ -176,8 +176,7 @@ if page == 'Exploratory Data Analysis':
 
     elif eda == 'Talks By Year':
         st.header('EXPLORE TED TALK TOKENS BY YEAR RECORDED')
-        st.markdown('* Compare up to 2 years of data')
-
+        
         # Load in tokens by year
         with open('Data/year_tok.pkl', 'rb') as file:
             tok_year_corpus = pickle.load(file)
