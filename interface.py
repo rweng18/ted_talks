@@ -26,6 +26,10 @@ st.subheader('Rebecca Weng | Flatiron School Data Science Immersive | Jan. 2020'
 # READ IN DATA
 # ---------------------------------------------------------------------------- #
 
+# Load final dataset
+with open('Data/final_raw_data.pkl', 'rb') as file:
+    talk_df = pickle.load(file)
+
 # Load final LDA document-topic matrix
 with open('Models/final_lda_dtm.pkl', 'rb') as file:
     final_lda_dtm = pickle.load(file)
@@ -62,10 +66,6 @@ if page == 'Overview':
     st.markdown('* 15,000+ tokens used for modeling')
     st.markdown('* Recorded from 1984 to present, uploaded from 2006 to present')
     st.markdown('* TED assigns 5+ tags to most talks')
-
-    # Load final dataset
-    with open('Data/final_raw_data.pkl', 'rb') as file:
-        talk_df = pickle.load(file)
 
     st.write(talk_df) # Print dataframe
 
