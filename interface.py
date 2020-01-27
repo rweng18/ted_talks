@@ -26,33 +26,6 @@ st.subheader('Rebecca Weng | Flatiron School Data Science Immersive | Jan. 2020'
 # READ IN DATA
 # ---------------------------------------------------------------------------- #
 
-# Load final dataset
-with open('Data/final_raw_data.pkl', 'rb') as file:
-    talk_df = pickle.load(file)
-
-# Load in tokenized data
-with open('Data/all_tok.pkl', 'rb') as file:
-    tok_corpus = pickle.load(file)
-
-# Create dictionary of token counts for entire tok_corpus
-word_bank = dict(Counter(tok_corpus))
-words_less_than_100 = {key: value for key, value in word_bank.items() if value < 100}
-words_more = {key: value for key, value in word_bank.items() if value >= 100}
-
-# Load in number of documents tokens appear in
-with open('Data/doc_tok_counts.pkl', 'rb') as file:
-    doc_counts = pickle.load(file)
-docs_less_than_100 = {key: value for key, value in doc_counts.items() if value < 100}
-docs_more = {key: value for key, value in doc_counts.items() if value >= 100}
-
-# Load in tokens by year
-with open('Data/year_tok.pkl', 'rb') as file:
-    tok_year_corpus = pickle.load(file)
-
-# Load in data on final LDA model
-with open('Models/final_lda_words.pkl', 'rb') as file:
-    top_15_words = pickle.load(file)
-
 # Load final LDA document-topic matrix
 with open('Models/final_lda_dtm.pkl', 'rb') as file:
     final_lda_dtm = pickle.load(file)
@@ -89,6 +62,11 @@ if page == 'Overview':
     st.markdown('* 15,000+ tokens used for modeling')
     st.markdown('* Recorded from 1984 to present, uploaded from 2006 to present')
     st.markdown('* TED assigns 5+ tags to most talks')
+
+    # Load final dataset
+    with open('Data/final_raw_data.pkl', 'rb') as file:
+        talk_df = pickle.load(file)
+
     st.write(talk_df) # Print dataframe
 
     st.header('PROJECT PIPELINE')
@@ -146,6 +124,13 @@ if page == 'Exploratory Data Analysis':
             min_val = st.text_input('Minimum Ranked Token (1 to 52037)', 1)
             max_val = st.text_input('Maximum Ranked Token (1 to 52037)', 300)
             values = st.slider("nmin to nmax", int(min_val), int(max_val), (int(min_val), int(int(max_val)/6)))
+
+            # Load in tokenized data
+            with open('Data/all_tok.pkl', 'rb') as file:
+                tok_corpus = pickle.load(file)
+
+            # Create dictionary of token counts for entire tok_corpus
+            word_bank = dict(Counter(tok_corpus))
             top_n_corpus = sorted(word_bank, key=word_bank.get, reverse=True)[values[0]-1:values[1]-1]
             fig13_title = f'Top {values[0]} to {values[1]} Tokens in Corpus'
 
@@ -168,6 +153,11 @@ if page == 'Exploratory Data Analysis':
             min_val_doc = st.text_input('Min. Ranked Token (1 to 52037)', 1)
             max_val_doc = st.text_input('Max. Ranked Token (1 to 52037)', 300)
             values_doc = st.slider("min to max", int(min_val_doc), int(max_val_doc), (int(min_val_doc), int(int(max_val_doc)/6)))
+
+            # Load in number of documents tokens appear in
+            with open('Data/doc_tok_counts.pkl', 'rb') as file:
+                doc_counts = pickle.load(file)
+
             top_n_doc = sorted(doc_counts, key=doc_counts.get, reverse=True)[values_doc[0]-1:values_doc[1]-1]
             fig15_title = f'Top {values_doc[0]} to {values_doc[1]} Tokens Appearing in Most Number of Documents'
 
@@ -187,6 +177,10 @@ if page == 'Exploratory Data Analysis':
     elif eda == 'Talks By Year':
         st.header('EXPLORE TED TALK TOKENS BY YEAR RECORDED')
         st.markdown('* Compare up to 2 years of data')
+
+        # Load in tokens by year
+        with open('Data/year_tok.pkl', 'rb') as file:
+            tok_year_corpus = pickle.load(file)
 
         # Get all possible years in which TED talk was recorded
         year_str = [str(year) for year in sorted(tok_year_corpus.keys())]
@@ -271,6 +265,11 @@ if page == 'Topic Modeling':
         st.header('LDA TOPICS')
         st.markdown('* These are the top 15 words in each topic that my final model generated')
         st.markdown('* The leftmost column shows the labels I assigned the topics')
+
+        # Load in data on final LDA model
+        with open('Models/final_lda_words.pkl', 'rb') as file:
+            top_15_words = pickle.load(file)
+
         st.write(top_15_words) # top 15 words in topics
 
         # st.markdown('[CLICK HERE FOR SEPARATE VISUAL!](file:///Users/rweng/Desktop/Flatiron/Projects/Final_20190124/final_lda.html)', unsafe_html = True)
