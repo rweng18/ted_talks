@@ -220,33 +220,33 @@ if page == 'Exploratory Data Analysis':
                              bargap = 0.1)
         st.plotly_chart(fig16a)
 
-        # User inputs year of interest
-        year_of_interest_b = st.text_input('Year Recorded (2)', 2019)
-
-        # Condition if inputted year not available
-        if year_of_interest_b not in year_str:
-            st.write(f'Sorry, {year_of_interest_b} not available.')
-
-        # Add data for given year
-        year_data_b = tok_year_corpus[int(year_of_interest_b)]['lemma_freq']
-
-        # User can toggle range of tokens to search between, then range to visualize
-        min_val_b = st.text_input(f'Minimum Ranked Token (1 to {len(year_data_b)}) (2)', 1)
-        max_val_b = st.text_input(f'Maximum Ranked Token (1 to {len(year_data_b)}) (2)', 300)
-        year_tok_range_b = st.slider("Min to Max (2)", int(min_val_b), int(max_val_b), (1, 50))
-
-        # Sort data in range for visualization
-        year_data_sort_b = sorted(year_data_b, key = year_data_b.get, reverse = True)[year_tok_range_b[0]-1:year_tok_range_b[1]-1]
-
-        # Histogram of top tokens in talks recorded in given year
-        fig16b = go.Figure(data = go.Bar(x = year_data_sort_b,
-                                         y = [year_data_b[x] for x in year_data_sort_b]))
-        fig16b_title = f'Top {year_tok_range_b[0]} to {year_tok_range_b[1]} Tokens in Talks Recorded in {year_of_interest_b}'
-        fig16b.update_layout(title_text = fig16b_title,
-                             yaxis_title_text = 'Number of Occurrences',
-                             xaxis_tickangle = -45,
-                             bargap = 0.1)
-        st.plotly_chart(fig16b)
+        # # User inputs year of interest
+        # year_of_interest_b = st.text_input('Year Recorded (2)', 2019)
+        #
+        # # Condition if inputted year not available
+        # if year_of_interest_b not in year_str:
+        #     st.write(f'Sorry, {year_of_interest_b} not available.')
+        #
+        # # Add data for given year
+        # year_data_b = tok_year_corpus[int(year_of_interest_b)]['lemma_freq']
+        #
+        # # User can toggle range of tokens to search between, then range to visualize
+        # min_val_b = st.text_input(f'Minimum Ranked Token (1 to {len(year_data_b)}) (2)', 1)
+        # max_val_b = st.text_input(f'Maximum Ranked Token (1 to {len(year_data_b)}) (2)', 300)
+        # year_tok_range_b = st.slider("Min to Max (2)", int(min_val_b), int(max_val_b), (1, 50))
+        #
+        # # Sort data in range for visualization
+        # year_data_sort_b = sorted(year_data_b, key = year_data_b.get, reverse = True)[year_tok_range_b[0]-1:year_tok_range_b[1]-1]
+        #
+        # # Histogram of top tokens in talks recorded in given year
+        # fig16b = go.Figure(data = go.Bar(x = year_data_sort_b,
+        #                                  y = [year_data_b[x] for x in year_data_sort_b]))
+        # fig16b_title = f'Top {year_tok_range_b[0]} to {year_tok_range_b[1]} Tokens in Talks Recorded in {year_of_interest_b}'
+        # fig16b.update_layout(title_text = fig16b_title,
+        #                      yaxis_title_text = 'Number of Occurrences',
+        #                      xaxis_tickangle = -45,
+        #                      bargap = 0.1)
+        # st.plotly_chart(fig16b)
 
 if page == 'Topic Modeling':
 
