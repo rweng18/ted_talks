@@ -6,8 +6,8 @@
 
 ## Project Overview
 
-* Final presentation [here](https://docs.google.com/presentation/d/1-l7kfdeJ5Y_BKlocZLmCj8We8QADfvC04qNAR0BIL4k/edit?usp=sharing).
-* Final deliverable [here](https://tedrecommender.herokuapp.com/). You can also run locally using `streamlit run interface.py`.
+* Final presentation hosted on Google Slides [here](https://docs.google.com/presentation/d/1-l7kfdeJ5Y_BKlocZLmCj8We8QADfvC04qNAR0BIL4k/edit?usp=sharing).
+* Final deliverable is an interactive app deployed on Heroku, created using Streamlit here [(https://tedrecommender.herokuapp.com/)](https://tedrecommender.herokuapp.com/). You can also run locally using `streamlit run interface.py`.
 
 ### Part I: Topic Modeling and Natural Language Processing
 TED talks are currently categorized under hundreds of topics. In fact, on the TED website itself, a wide range of topics are listed [here](https://www.ted.com/topics), from niche topics like "biomimicry" to general ideas like "big problems." This project began by using natural language processing and unsupervised learning to create a smaller set of topics with which to categorize Ted Talks.
