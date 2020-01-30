@@ -7,7 +7,8 @@
 ## Project Overview
 
 * Final presentation hosted on Google Slides [here](https://docs.google.com/presentation/d/1-l7kfdeJ5Y_BKlocZLmCj8We8QADfvC04qNAR0BIL4k/edit?usp=sharing).
-* Final deliverable is an interactive app deployed on Heroku, created using Streamlit here [(https://tedrecommender.herokuapp.com/)](https://tedrecommender.herokuapp.com/). You can also run locally using `streamlit run interface.py`.
+* Final deliverable is an interactive app deployed on Heroku, created using Streamlit here [(https://tedrecommender.herokuapp.com/)](https://tedrecommender.herokuapp.com/). The app allows you to explore the data, exploratory data analysis, algorithms, and use the recommender.
+      * You can also run locally using `streamlit run interface.py`.
 
 ### Part I: Topic Modeling and Natural Language Processing
 TED talks are currently categorized under hundreds of topics. In fact, on the TED website itself, a wide range of topics are listed [here](https://www.ted.com/topics), from niche topics like "biomimicry" to general ideas like "big problems." This project began by using natural language processing and unsupervised learning to create a smaller set of topics with which to categorize Ted Talks.
@@ -34,6 +35,10 @@ Finally, I used Streamlit to develop an interactive interface to view explorator
     * Tested 10, 13, 15, 16, 17, 20, and 25 topics
     * Evaluated using 80:20 train-test-split, log-likelihood, perplexity, and human readability, with an emphasis on the latter
     * Final model used 15 topics
+
+| Number of Topics | Train Log-Likelihood | Test Log-Likelihood | Train Perplexity | Test Perplexity |
+| ---------------- | -------------------- | ------------------- | ---------------- | --------------- |
+
 * Transformed entire data set using LDA model that was fit on training data
 * Used resulting document-topic matrix as the input to calculate Jensen-Shannon divergence, which takes in probability distributions, to calculate similarity between TED talks
 
