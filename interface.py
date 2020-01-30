@@ -54,7 +54,7 @@ page = st.sidebar.selectbox('Project Section',
 
 if page == 'Overview':
     st.header('PROJECT GOALS')
-    st.write('1. Explaratory analysis of TED talk features.')
+    st.write('1. Exploratory analysis of TED talk features.')
     st.write('2. Use natural language processing and topic modeling to understand latent groupings of TED talks based on transcripts.')
     st.write('3. Create a content-based recommender to showcase a simple application of topic modeling.')
     st.write('4. Create an interactive interface to explore the data and findings. All the figures are interactive!')
@@ -176,7 +176,7 @@ if page == 'Exploratory Data Analysis':
 
     elif eda == 'Talks By Year':
         st.header('EXPLORE TED TALK TOKENS BY YEAR RECORDED')
-        
+
         # Load in tokens by year
         with open('Data/year_tok.pkl', 'rb') as file:
             tok_year_corpus = pickle.load(file)
