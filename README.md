@@ -39,5 +39,11 @@ Finally, I used Streamlit to develop an interactive interface to view explorator
 
 ## Deliverables & Insights
 
+![Search talk from dropdown](https://github.com/rweng18/tedtalks/blob/master/EDA_static/rec_01.gif)
+
+![Get topic distribution and URL](https://github.com/rweng18/tedtalks/blob/master/EDA_static/rec_02.gif)
+
+![Get recommendations and URLs](https://github.com/rweng18/tedtalks/blob/master/EDA_static/rec_03.gif)
+
 
 ## Future Work
