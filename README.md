@@ -49,8 +49,9 @@ Finally, I used Streamlit to develop an interactive interface to view explorator
 |               25 |            -1.26e+07 |           -3.29e+06 |          2716.94 |         3940.12 |
           
 * Final model used 15 topics
+          * The following table shows the label for each topic that I assigned based on the most salient words, along with the 5 most salient words associated with each topic
 
-|    Assigned Topic Name |              |              |              |              |              |
+|    Assigned Topic Name |      #1 Word |      #2 Word |      #3 Word |      #4 Word |      #5 Word |
 | ---------------------- | ------------ | ------------ | ------------ | ------------ | ------------ |
 |                General |         life |         tell |        brain |        human |         talk |
 |                Science |        light |       energy |        earth |       planet |        space |
