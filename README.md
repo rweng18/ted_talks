@@ -8,7 +8,7 @@
 
 * Final presentation hosted on Google Slides [here](https://docs.google.com/presentation/d/1-l7kfdeJ5Y_BKlocZLmCj8We8QADfvC04qNAR0BIL4k/edit?usp=sharing).
 * Final deliverable is an interactive app deployed on Heroku, created using Streamlit here [(https://tedrecommender.herokuapp.com/)](https://tedrecommender.herokuapp.com/). The app allows you to explore the data, exploratory data analysis, algorithms, and use the recommender.
-      * You can also run locally using `streamlit run interface.py`.
+     * You can also run locally using `streamlit run interface.py`.
 
 ### Part I: Topic Modeling and Natural Language Processing
 TED talks are currently categorized under hundreds of topics. In fact, on the TED website itself, a wide range of topics are listed [here](https://www.ted.com/topics), from niche topics like "biomimicry" to general ideas like "big problems." This project began by using natural language processing and unsupervised learning to create a smaller set of topics with which to categorize Ted Talks.
@@ -39,7 +39,7 @@ Finally, I used Streamlit to develop an interactive interface to view explorator
 * After vectorizing the tokenized transcripts, input data into Latent Dirichlet Allocation (LDA)
     * Tested 10, 13, 15, 16, 17, 20, and 25 topics
     * Evaluated using 80:20 train-test-split, log-likelihood, perplexity, and human readability
-          * Although a low log-likelihood and high perplexity is what many aim for, they have been found at times to result in topics that are counter to human readability. For this project, I focused on the latter.
+         * Although a low log-likelihood and high perplexity is what many aim for, they have been found at times to result in topics that are counter to human readability. For this project, I focused on the latter.
 
 | Number of Topics | Train Log-Likelihood | Test Log-Likelihood | Train Perplexity | Test Perplexity |
 | ---------------- | -------------------- | ------------------- | ---------------- | --------------- |
@@ -47,9 +47,11 @@ Finally, I used Streamlit to develop an interactive interface to view explorator
 |               15 |            -1.26e+07 |           -3.28e+06 |          2722.52 |         3853.54 |
 |               20 |            -1.26e+07 |           -3.28e+06 |          2694.63 |         3895.46 |
 |               25 |            -1.26e+07 |           -3.29e+06 |          2716.94 |         3940.12 |
-          
+
+
 * Final model used 15 topics
-          * The following table shows the label for each topic that I assigned based on the most salient words, along with the 5 most salient words associated with each topic
+     * The following table shows the label for each topic that I assigned based on the most salient words, along with the 5 most salient words associated with each topic
+
 
 |    Assigned Topic Name |      #1 Word |      #2 Word |      #3 Word |      #4 Word |      #5 Word |
 | ---------------------- | ------------ | ------------ | ------------ | ------------ | ------------ |
