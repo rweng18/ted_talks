@@ -112,8 +112,8 @@ Finally, I used Streamlit to develop an interactive interface to view explorator
 1. Word Embeddings & n-grams
 2. Recommend based on topic or keywords
 3. Applications of topic modeling
-          a. Semantic analysis
-          b. TED talks over time
-          c. Predicting views or audience engagement
+     1. Semantic analysis
+     2. TED talks over time
+     3. Predicting views or audience engagement
 4. Improved frontend
 
