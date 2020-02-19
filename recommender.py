@@ -28,7 +28,7 @@ def jensen_shannon(query, matrix):
 def get_most_similar_documents(query, matrix, k=10):
     """
     This function implements the Jensen-Shannon distance above
-    and retruns the top k indices of the smallest jensen shannon distances
+    and returns the top k indices of the smallest jensen shannon distances
     """
     sims = jensen_shannon(query,matrix) # list of jensen shannon distances
     return sims.argsort()[1:k+1] # the top k positional index of the smallest Jensen Shannon distances
@@ -37,7 +37,7 @@ def get_most_similar_documents(query, matrix, k=10):
 def get_most_diff_documents(query,matrix,k=10):
     """
     This function implements the Jensen-Shannon distance above
-    and retruns the top k indices of the smallest jensen shannon distances
+    and returns the top k indices of the largest jensen shannon distances
     """
     sims = jensen_shannon(query,matrix) # list of jensen shannon distances
     return sims.argsort()[-k-1:-1] # the top k positional index of the largest Jensen Shannon distances
