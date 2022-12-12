@@ -19,7 +19,7 @@ TED talks are currently categorized under hundreds of topics. In fact, on the TE
 Next, I created and deployed a simple recommendation systems using the topics modeled above to recommend TED talks based on  Jensen-Shannon divergence. Currently, you can input a title or an index and the system will generate the topic distribution, summary, link, and existing tags provided by TED for the talk, along with the 5 most similar and 5 most dissimilar talks.
 
 ### Part III: Interactive Front End
-Finally, I used Streamlit to develop an interactive interface to view exploratory data analysis and deliverables of project. I then used Heroku to deploy the app here: [TED Talk Project](https://tedrecommender.herokuapp.com/). The user can use the sidebar to explore the algorithms used, exploratory data analysis, and customize some visualizations as well. The user can also generate talk topic distributions and TED talk recommendations based on the talk title or random index.
+Finally, I used Streamlit to develop an interactive interface to view exploratory data analysis and deliverables of project. I then used Heroku to deploy the app online. The user can use the sidebar to explore the algorithms used, exploratory data analysis, and customize some visualizations as well. The user can also generate talk topic distributions and TED talk recommendations based on the talk title or random index.
 
 ## Data & Methods
 * Information about 4,200+ TED talks were web scraped from the official TED website. The dataset only includes the TED talks available from the quicklist of all TED talks [here](https://www.ted.com/talks/quick-list?page=1).
