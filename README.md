@@ -7,7 +7,7 @@
 ## Project Overview
 
 * Final presentation hosted on Google Slides [here](https://docs.google.com/presentation/d/1-l7kfdeJ5Y_BKlocZLmCj8We8QADfvC04qNAR0BIL4k/edit?usp=sharing).
-* Final deliverable is an interactive app deployed on Heroku, created using Streamlit here [(https://tedrecommender.herokuapp.com/)](https://tedrecommender.herokuapp.com/). The app is just in beta form and can run slowly, requires some memory. The app allows you to explore the data, exploratory data analysis, algorithms, and use the recommender.
+* Final deliverable was an interactive app deployed on Heroku, created using Streamlit. The app allowed you to explore the data, exploratory data analysis, algorithms, and use the recommender.
      * You can also run locally using `streamlit run interface.py`.
 
 ### Part I: Topic Modeling and Natural Language Processing
